@@ -20,6 +20,26 @@ void Paddle::move(int dir)
 	body.x += dir * speed;
 }
 
+int Paddle::getX()
+{
+	return body.x;
+}
+
+int Paddle::getY()
+{
+	return body.y;
+}
+
+int Paddle::getW()
+{
+	return body.w;
+}
+
+int Paddle::getH()
+{
+	return body.h;
+}
+
 void Paddle::render(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

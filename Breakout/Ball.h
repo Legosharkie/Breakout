@@ -1,19 +1,20 @@
 #include <SDL.h>
 #include "constants.h"
+#include "Paddle.h"
 #pragma once
-class Paddle
+class Ball
 {
 	public:
-		Paddle();
-		~Paddle();
-		void move(int dir);
+		Ball();
+		~Ball();
 		int getX();
 		int getY();
-		int getW();
-		int getH();
+		int getR();
+		void move();
+		void collisionCheck(Paddle p);
 		void render(SDL_Renderer* renderer);
-
 	private:
+		int vx, vy;
 		SDL_Rect body;
 
 };

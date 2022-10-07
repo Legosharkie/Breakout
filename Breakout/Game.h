@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include "Paddle.h"
+#include "Ball.h"
 #include "constants.h"
 #pragma once
 class Game
@@ -26,6 +27,7 @@ class Game
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		Paddle player;
+		Ball ball;
 
 
 };

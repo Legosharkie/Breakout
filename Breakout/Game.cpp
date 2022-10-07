@@ -81,6 +81,7 @@ void Game::update()
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
 	player.move(-keystates[SDL_SCANCODE_A] + keystates[SDL_SCANCODE_D]);
+	ball.move();
 
 }
 
@@ -90,6 +91,8 @@ void Game::render()
 	SDL_RenderClear(renderer);
 	
 	player.render(renderer);
+	ball.render(renderer);
+	ball.collisionCheck(player);
 
 	SDL_RenderPresent(renderer);
 }
