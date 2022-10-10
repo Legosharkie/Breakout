@@ -1,6 +1,8 @@
 #include <SDL.h>
 #include "constants.h"
 #include "Paddle.h"
+#include <vector>
+#include "Brick.h"
 #pragma once
 class Ball
 {
@@ -9,9 +11,10 @@ class Ball
 		~Ball();
 		int getX();
 		int getY();
-		int getR();
+		int getW();
 		void move();
-		void collisionCheck(Paddle p);
+		void collisionWall(Paddle p);
+		int collisionBrick(Brick b);
 		void render(SDL_Renderer* renderer);
 	private:
 		int vx, vy;

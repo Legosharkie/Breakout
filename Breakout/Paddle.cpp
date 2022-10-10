@@ -18,6 +18,11 @@ void Paddle::move(int dir)
 {
 	int speed = 20;
 	body.x += dir * speed;
+
+	if (body.x <= 0)
+		body.x = 0;
+	else if (body.x + body.w >= SCREEN_WIDTH)
+		body.x = SCREEN_WIDTH - body.w;
 }
 
 int Paddle::getX()

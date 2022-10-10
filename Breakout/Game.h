@@ -17,7 +17,10 @@ class Game
 		void update();
 		void render();
 		void clean();
+		void reset();
+		void initBricks(int rows, int blockHeight, int N_per_row, int minLen);
 		bool running() { return isRunning; }
+		std::vector<int> getChunks(int length, int N_chunks, int minLen);
 		void mousePress(SDL_MouseButtonEvent& b);
 
 	private:
@@ -28,6 +31,7 @@ class Game
 		SDL_Renderer* renderer;
 		Paddle player;
 		Ball ball;
+		std::vector<Brick> bricks;
 
 
 };

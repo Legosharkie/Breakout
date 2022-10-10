@@ -20,8 +20,13 @@ void Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 		flags = SDL_WINDOW_FULLSCREEN;
 	}
 
+	// random seed 
+	srand(time(NULL));
+
 	//windowRes = res;
 	aspectRatio = (double)SCREEN_WIDTH / (double)SCREEN_HEIGHT;
+
+	initBricks(5, 30, 10, SCREEN_WIDTH / 10);
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) == 0)
 	{
@@ -66,6 +71,11 @@ void Game::handleEvents(int *pause)
 				*pause = !(*pause);
 				break;
 			}
+
+			if (event.key.keysym.sym == SDLK_r)
+			{
+				reset();
+			}
 			break;
 		case SDL_QUIT:
 			isRunning = false;
@@ -82,17 +92,27 @@ void Game::update()
 
 	player.move(-keystates[SDL_SCANCODE_A] + keystates[SDL_SCANCODE_D]);
 	ball.move();
-
+	ball.collisionWall(player);
+	int hit;
+	std::vector<int> indices;
+	for (int i = bricks.size()-1; i > 0; i--)
+	{
+		hit = ball.collisionBrick(bricks[i]);
+		if (hit == 1)
+			bricks.erase(bricks.begin() + i);
+	}
 }
 
 void Game::render()
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(renderer, 34, 41, 69, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(renderer);
 	
 	player.render(renderer);
 	ball.render(renderer);
-	ball.collisionCheck(player);
+	for (auto brick : bricks)
+		brick.render(renderer);
+
 
 	SDL_RenderPresent(renderer);
 }
@@ -108,4 +128,49 @@ void Game::clean()
 void Game::mousePress(SDL_MouseButtonEvent& b)
 {
 	
+}
+
+std::vector<int> Game::getChunks(int length, int N_chunks, int minLen)
+{
+	std::vector<int> chunks;
+	int maxLen;
+	int newSize;
+	for (int i = 0; i < N_chunks-1; i++)
+	{
+		maxLen = std::ceill(length/(N_chunks - chunks.size()));
+		newSize = rand() % (maxLen - minLen + 1) + minLen;
+		length = length - newSize;
+		chunks.push_back(newSize);
+	}
+	chunks.push_back(length);
+	return chunks;
+}
+
+void Game::initBricks(int rows, int blockHeight, int N_per_row, int minLen)
+{
+	std::vector<int>chunks;
+	int nextX;
+	for (int i = 0; i < rows; i++)
+	{
+		chunks = getChunks(SCREEN_WIDTH, N_per_row, minLen);
+		nextX = 0;
+		for (int j = 0; j < chunks.size(); j++)
+		{
+
+			Brick brick = Brick(nextX, i * blockHeight, chunks[j], blockHeight);
+			nextX += chunks[j];
+
+			bricks.push_back(brick);
+		}
+	}
+}
+
+void Game::reset()
+{
+	bricks.clear();
+	initBricks(5, 30, 10, SCREEN_WIDTH / 10);
+
+	//ball = Ball();
+	//player = Paddle();
+
 }

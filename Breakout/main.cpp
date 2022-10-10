@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	const int res = 10;
 
 	Uint32 frameStart;
-	int frameTime;
+	int frameTime = 0;
 
 	Uint32 tickStart;
 
@@ -37,13 +37,14 @@ int main(int argc, char* argv[])
 		game->update();
 		game->render();
 
-
+		
 		frameTime = SDL_GetTicks() - frameStart;
 
 		if (frameDelay > frameTime)
 		{
 			SDL_Delay(frameDelay - frameTime);
 		}
+		
 	}
 
 	game->clean();
