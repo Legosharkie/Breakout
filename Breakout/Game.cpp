@@ -95,13 +95,13 @@ void Game::update(double dt)
 	Ball* ball;
 	for (int i = balls.size()-1; i >= 0; i--)
 	{
-		int *state = new int(0);
+		int state = 0;
 		ball = balls[i];
 		Brick* collisionBrick = nullptr;
 		int brickIdx;
 		for (brickIdx = bricks.size() - 1; brickIdx >= 0; brickIdx--)
 		{
-			if (ball->collisionBrick(*bricks[brickIdx], state))
+			if (ball->collisionBrick(*bricks[brickIdx], &state))
 			{
 				collisionBrick = bricks[brickIdx];
 				break;
@@ -109,21 +109,34 @@ void Game::update(double dt)
 		}
 		//std::cout << state << std::endl;
 		
-		ball->move(collisionBrick, *state);
+		ball->move(collisionBrick, state);
 		ball->collisionWall(player);
-
-		if (collisionBrick)
-		{
-			delete bricks[brickIdx];
-			bricks.erase(bricks.begin() + brickIdx);
-			std::cout << bricks.size() << std::endl;
-		}
 
 		if (ball->isDead())
 		{
 			delete balls[i];
 			balls.erase(balls.begin() + i);
 			std::cout << "There are now " << balls.size() << " balls" << std::endl;
+		}
+
+		if (collisionBrick)
+		{
+			// death effects
+			int brickType = collisionBrick->getType();
+			switch (brickType)
+			{
+			case REG_BRICK:
+				break;
+
+			case BALL_BRICK:
+				balls.push_back( new Ball(collisionBrick->getX() + collisionBrick->getW() / 2, collisionBrick->getY() + collisionBrick->getH() / 2, 4, -4) );
+				balls.push_back( new Ball(collisionBrick->getX() + collisionBrick->getW() / 2, collisionBrick->getY() + collisionBrick->getH() / 2, -4, -4) );
+				break;
+			}
+
+			delete bricks[brickIdx];
+			bricks.erase(bricks.begin() + brickIdx);
+			std::cout << "There are now " << bricks.size() << " bricks remaining" << std::endl;
 		}
 	}
 	

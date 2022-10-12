@@ -3,7 +3,7 @@
 RegBrick::RegBrick(int x, int y, int w, int h) 
 {
 
-	brickType = 1;
+	brickType = REG_BRICK;
 
 	body.w = w;
 	body.h = h;

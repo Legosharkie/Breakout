@@ -15,7 +15,7 @@ public:
 	int getW();
 	int getH();
 	SDL_Rect getBody();
-	int Kill();
+	int getType();
 	virtual void render(SDL_Renderer* renderer);
 
 };

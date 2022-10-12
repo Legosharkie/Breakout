@@ -4,7 +4,7 @@
 
 BallBrick::BallBrick(int x, int y, int w, int h)
 {
-	brickType = 2;
+	brickType = BALL_BRICK;
 
 	body.w = w;
 	body.h = h;

@@ -16,7 +16,7 @@ void Brick::render(SDL_Renderer* renderer)
 	SDL_RenderDrawRect(renderer, &body);
 }
 
-int Brick::Kill()
+int Brick::getType()
 {
 	return brickType;
 }

@@ -7,6 +7,5 @@ class BallBrick : public Brick
 		BallBrick(int x, int y, int w, int h);
 		~BallBrick();
 		void render(SDL_Renderer* renderer);
-
 };
 
