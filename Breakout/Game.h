@@ -4,6 +4,8 @@
 #include "Paddle.h"
 #include "Ball.h"
 #include "constants.h"
+#include "BallBrick.h"
+#include "RegBrick.h"
 #pragma once
 class Game
 {
@@ -14,7 +16,7 @@ class Game
 		void init(const char* title, int xpos, int ypos, int width, int height, bool fullScreen);
 		
 		void handleEvents(int* pause);
-		void update();
+		void update(double dt);
 		void render();
 		void clean();
 		void reset();
@@ -31,7 +33,8 @@ class Game
 		SDL_Renderer* renderer;
 		Paddle player;
 		Ball ball;
-		std::vector<Brick> bricks;
+		std::vector<Brick*> bricks;
+		std::vector<Ball*> balls;
 
 
 };

@@ -3,6 +3,7 @@
 Game::Game()
 {
 	player = Paddle();
+	balls.push_back(new Ball());
 }
 
 Game::~Game()
@@ -86,21 +87,35 @@ void Game::handleEvents(int *pause)
 	}
 }
  
-void Game::update()
+void Game::update(double dt)
 {
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 
 	player.move(-keystates[SDL_SCANCODE_A] + keystates[SDL_SCANCODE_D]);
-	ball.move();
-	ball.collisionWall(player);
-	int hit;
-	std::vector<int> indices;
-	for (int i = bricks.size()-1; i > 0; i--)
+	Ball* ball;
+	for (int i = balls.size()-1; i >= 0; i--)
 	{
-		hit = ball.collisionBrick(bricks[i]);
-		if (hit == 1)
-			bricks.erase(bricks.begin() + i);
+		ball = balls[i];
+		ball->move(dt);
+		ball->collisionWall(player);
+
+		if (ball->isDead())
+		{
+			delete balls[i];
+			balls.erase(balls.begin() + i);
+		}
+
+		for (int j = bricks.size() - 1; j >= 0; j--)
+		{
+			if (ball->collisionBrick(*bricks[j]))
+			{
+				delete bricks[j];
+				bricks.erase(bricks.begin() + j);
+				std::cout << bricks.size() << std::endl;
+			}
+		}
 	}
+	
 }
 
 void Game::render()
@@ -109,9 +124,11 @@ void Game::render()
 	SDL_RenderClear(renderer);
 	
 	player.render(renderer);
-	ball.render(renderer);
+	for (auto ball : balls)
+		ball->render(renderer);
+		
 	for (auto brick : bricks)
-		brick.render(renderer);
+		brick->render(renderer);
 
 
 	SDL_RenderPresent(renderer);
@@ -127,7 +144,11 @@ void Game::clean()
 
 void Game::mousePress(SDL_MouseButtonEvent& b)
 {
-	
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+
+	if (b.button == SDL_BUTTON_LEFT)
+		balls.push_back(new Ball(x,y,400,400));
 }
 
 std::vector<int> Game::getChunks(int length, int N_chunks, int minLen)
@@ -150,27 +171,38 @@ void Game::initBricks(int rows, int blockHeight, int N_per_row, int minLen)
 {
 	std::vector<int>chunks;
 	int nextX;
-	for (int i = 0; i < rows; i++)
+	double randNum;
+	int yoff = 4;
+
+	for (int i = yoff; i < rows+yoff; i++)
 	{
 		chunks = getChunks(SCREEN_WIDTH, N_per_row, minLen);
 		nextX = 0;
 		for (int j = 0; j < chunks.size(); j++)
 		{
-
-			Brick brick = Brick(nextX, i * blockHeight, chunks[j], blockHeight);
+			randNum = ((double)rand() / RAND_MAX);
+			if (randNum <= 0.1) 
+			{
+				bricks.push_back(new BallBrick(nextX, i * blockHeight, chunks[j], blockHeight));
+				
+			}
+			else
+				bricks.push_back(new RegBrick(nextX, i * blockHeight, chunks[j], blockHeight));
 			nextX += chunks[j];
 
-			bricks.push_back(brick);
 		}
 	}
+
 }
 
 void Game::reset()
 {
+
+	balls.clear();
 	bricks.clear();
 	initBricks(5, 30, 10, SCREEN_WIDTH / 10);
 
-	//ball = Ball();
+	//balls.push_back(new Ball());
 	//player = Paddle();
 
 }

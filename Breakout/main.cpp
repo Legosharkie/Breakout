@@ -5,7 +5,7 @@ Game* game = nullptr;
 
 int main(int argc, char* argv[])
 {
-	const int FPS = 60;
+	const int FPS = 120;
 	const int TPS = 20;
 	const int frameDelay = 1000 / FPS;
 	const int tickDelay = 1000 / TPS;
@@ -34,11 +34,12 @@ int main(int argc, char* argv[])
 		tickStart = SDL_GetTicks();
 
 		game->handleEvents(&pause);
-		game->update();
+		game->update(frameTime);
 		game->render();
 
 		
 		frameTime = SDL_GetTicks() - frameStart;
+		//std::cout << frameDelay << std::endl;
 
 		if (frameDelay > frameTime)
 		{

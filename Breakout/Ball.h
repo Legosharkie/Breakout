@@ -8,17 +8,19 @@ class Ball
 {
 	public:
 		Ball();
+		Ball(int x, int y, int vx, int vy);
 		~Ball();
 		int getX();
 		int getY();
 		int getW();
-		void move();
+		void move(double dt);
+		bool isDead();
 		void collisionWall(Paddle p);
 		int collisionBrick(Brick b);
 		void render(SDL_Renderer* renderer);
 	private:
 		int vx, vy;
-		SDL_Rect body;
+		SDL_FRect body;
 
 };
 
