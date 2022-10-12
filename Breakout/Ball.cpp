@@ -5,22 +5,22 @@
 
 Ball::Ball()
 {
-	vx = 5;
-	vy = 5;
+	vx = 10;
+	vy = 10;
 	body.x = SCREEN_WIDTH / 2;
 	body.y = SCREEN_HEIGHT - 200;
-	body.w = 20;
-	body.h = 20;
+	body.w = 10;
+	body.h = 10;
 }				  
 Ball::Ball(int x, int y, int vx, int vy)
 {
-	body.w = 20;
-	body.h = 20;
+	body.w = 10;
+	body.h = 10;
 
 	//this->vx = vx;
 	//this->vy = vy;
-	this->vx = 5;
-	this->vy = 5;
+	this->vx = vx;
+	this->vy = vy;
 
 	body.x = x - body.w / 2;
 	body.y = y - body.h / 2;

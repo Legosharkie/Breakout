@@ -4,7 +4,8 @@
 
 Brick::~Brick()
 {
-
+	//SDL_DestroyTexture(texture);
+	//SDL_FreeSurface(surface);
 }
 
 void Brick::render(SDL_Renderer* renderer)
@@ -39,6 +40,11 @@ int Brick::getW()
 int Brick::getH()
 {
 	return body.h;
+}
+
+int Brick::getLife()
+{
+	return life;
 }
 
 SDL_Rect Brick::getBody()

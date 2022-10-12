@@ -2,6 +2,7 @@
 #include "constants.h"
 #include "Paddle.h"
 #include <vector>
+#include <string>
 #include "Brick.h"
 #pragma once
 class Ball

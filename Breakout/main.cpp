@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	const int res = 10;
 
 	Uint32 frameStart;
-	int frameTime = 0;
+	int frameTime = 1;
 
 	Uint32 tickStart;
 
@@ -26,27 +26,32 @@ int main(int argc, char* argv[])
 	//std::cout << " HEJ" << std::endl;
 	int xpos = 0;
 	Uint32 nextTick = 0;
-
+	Uint32 delta;
 	while (game->running())
 	{
 
 		frameStart = SDL_GetTicks();
-		tickStart = SDL_GetTicks();
+		//tickStart = SDL_GetTicks();
 
-		game->handleEvents(&pause);
-		game->update(frameTime);
-		game->render();
+		//game->handleEvents(&pause);
+		//game->update(frameTime);
+		//game->render();
 
 		
-		frameTime = SDL_GetTicks() - frameStart;
-		//std::cout << frameDelay << std::endl;
+		delta = frameStart - frameTime;
 
-		if (frameDelay > frameTime)
+		if (frameDelay < delta)
 		{
-			SDL_Delay(frameDelay - frameTime);
+			//SDL_Delay(frameDelay - frameTime);
+			frameTime = frameStart;
+			//std::cout << "fps: " << 1000.0 / delta << std::endl;
+			game->handleEvents(&pause);
+			game->update(delta);
+			game->render();
 		}
 		
 	}
+	//std::cout << game->running() << std::endl;
 
 	game->clean();
 

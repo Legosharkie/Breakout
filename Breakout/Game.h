@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Paddle.h"
 #include "Ball.h"
 #include "constants.h"
@@ -33,8 +34,14 @@ class Game
 		SDL_Renderer* renderer;
 		Paddle player;
 		Ball ball;
+		TTF_Font* font;
+		SDL_Rect FPS_box;
 		std::vector<Brick*> bricks;
 		std::vector<Ball*> balls;
+		SDL_Surface* surface;
+		SDL_Texture* texture;
+
+		int N_per_row, blockHeight, rows, minLen;
 
 
 };
