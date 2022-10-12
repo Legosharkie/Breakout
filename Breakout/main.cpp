@@ -5,7 +5,7 @@ Game* game = nullptr;
 
 int main(int argc, char* argv[])
 {
-	const int FPS = 120;
+	const int FPS = 60;
 	const int TPS = 20;
 	const int frameDelay = 1000 / FPS;
 	const int tickDelay = 1000 / TPS;

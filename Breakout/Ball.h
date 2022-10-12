@@ -13,14 +13,14 @@ class Ball
 		int getX();
 		int getY();
 		int getW();
-		void move(double dt);
+		void move(Brick* brick, int state);
 		bool isDead();
 		void collisionWall(Paddle p);
-		int collisionBrick(Brick b);
+		int collisionBrick(Brick b, int* state);
 		void render(SDL_Renderer* renderer);
 	private:
 		int vx, vy;
-		SDL_FRect body;
+		SDL_Rect body;
 
 };
 

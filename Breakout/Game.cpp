@@ -95,24 +95,35 @@ void Game::update(double dt)
 	Ball* ball;
 	for (int i = balls.size()-1; i >= 0; i--)
 	{
+		int *state = new int(0);
 		ball = balls[i];
-		ball->move(dt);
+		Brick* collisionBrick = nullptr;
+		int brickIdx;
+		for (brickIdx = bricks.size() - 1; brickIdx >= 0; brickIdx--)
+		{
+			if (ball->collisionBrick(*bricks[brickIdx], state))
+			{
+				collisionBrick = bricks[brickIdx];
+				break;
+			}
+		}
+		//std::cout << state << std::endl;
+		
+		ball->move(collisionBrick, *state);
 		ball->collisionWall(player);
+
+		if (collisionBrick)
+		{
+			delete bricks[brickIdx];
+			bricks.erase(bricks.begin() + brickIdx);
+			std::cout << bricks.size() << std::endl;
+		}
 
 		if (ball->isDead())
 		{
 			delete balls[i];
 			balls.erase(balls.begin() + i);
-		}
-
-		for (int j = bricks.size() - 1; j >= 0; j--)
-		{
-			if (ball->collisionBrick(*bricks[j]))
-			{
-				delete bricks[j];
-				bricks.erase(bricks.begin() + j);
-				std::cout << bricks.size() << std::endl;
-			}
+			std::cout << "There are now " << balls.size() << " balls" << std::endl;
 		}
 	}
 	
