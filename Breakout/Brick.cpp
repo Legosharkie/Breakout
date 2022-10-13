@@ -4,8 +4,7 @@
 
 Brick::~Brick()
 {
-	//SDL_DestroyTexture(texture);
-	//SDL_FreeSurface(surface);
+	
 }
 
 void Brick::render(SDL_Renderer* renderer)

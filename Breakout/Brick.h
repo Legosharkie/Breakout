@@ -18,7 +18,7 @@ protected:
 	
 	
 public:
-	~Brick();
+	virtual ~Brick();
 	int getX();
 	int getY();
 	int getW();

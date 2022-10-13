@@ -36,19 +36,15 @@ int main(int argc, char* argv[])
 		//game->handleEvents(&pause);
 		//game->update(frameTime);
 		//game->render();
-
 		
 		delta = frameStart - frameTime;
+		
+		game->handleEvents(&pause);
+		game->update(delta);
+		game->render();
 
-		if (frameDelay < delta)
-		{
-			//SDL_Delay(frameDelay - frameTime);
-			frameTime = frameStart;
-			//std::cout << "fps: " << 1000.0 / delta << std::endl;
-			game->handleEvents(&pause);
-			game->update(delta);
-			game->render();
-		}
+		frameTime = frameStart;
+		
 		
 	}
 	//std::cout << game->running() << std::endl;

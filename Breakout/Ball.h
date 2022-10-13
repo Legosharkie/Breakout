@@ -22,6 +22,7 @@ class Ball
 	private:
 		int vx, vy;
 		SDL_Rect body;
+		SDL_Rect overlap;
 
 };
 

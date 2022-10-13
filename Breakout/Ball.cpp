@@ -11,6 +11,8 @@ Ball::Ball()
 	body.y = SCREEN_HEIGHT - 200;
 	body.w = 10;
 	body.h = 10;
+
+	overlap = { 0,0,0,0 };
 }				  
 Ball::Ball(int x, int y, int vx, int vy)
 {
@@ -24,11 +26,13 @@ Ball::Ball(int x, int y, int vx, int vy)
 
 	body.x = x - body.w / 2;
 	body.y = y - body.h / 2;
+
+	overlap = { 0,0,0,0 };
 }
 
 Ball::~Ball()	  
 {				  
-				  
+
 }			
 
 int  Ball::getX() 
@@ -75,6 +79,7 @@ void Ball::move(Brick* brick, int state)
 			break;
 
 		}
+		return;
 	}
 }
 
@@ -82,13 +87,13 @@ int Ball::collisionBrick(Brick b, int* state)
 {
 	int ret = 0;
 	*state = 0;
-	SDL_Rect* overlap = new SDL_Rect();
+	//SDL_Rect* overlap = new SDL_Rect();
 	SDL_Rect blockBody = b.getBody();
 	SDL_Rect collisionX = { body.x + vx, body.y, body.w, body.h };
 	SDL_Rect collisionY = { body.x, body.y + vy, body.w, body.h };
 
 	// x collision
-	if (SDL_IntersectRect(&collisionX, &blockBody, overlap))
+	if (SDL_IntersectRect(&collisionX, &blockBody, &overlap))
 	{
 		if (body.x + body.w <= blockBody.x)
 			*state = 1;
@@ -100,7 +105,7 @@ int Ball::collisionBrick(Brick b, int* state)
 	}
 
 	// y collision
-	if (SDL_IntersectRect(&collisionY, &blockBody, overlap))
+	if (SDL_IntersectRect(&collisionY, &blockBody, &overlap))
 	{
 		
 		if (body.y + body.h <= blockBody.y)
@@ -114,8 +119,6 @@ int Ball::collisionBrick(Brick b, int* state)
 		//vy *= -1;
 		ret = 1;
 	}
-	
-	//std::cout << *state << std::endl;
 
 	return ret;
 }
