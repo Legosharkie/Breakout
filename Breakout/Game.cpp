@@ -3,7 +3,7 @@
 Game::Game()
 {
 	player = Paddle();
-	std::cout << "HELLO FROM GAME!" << std::endl;
+	std::cout << "HELLO FROM GAME DADAAD!" << std::endl;
 	//balls.push_back(new Ball());
 }
 
