@@ -22,9 +22,9 @@ BallBrick::BallBrick(int x, int y, int w, int h, TTF_Font* font, SDL_Renderer* r
 
 	// Text
 	this->font = font;
-	int texW, texH;
 	surface = TTF_RenderText_Solid(font, std::to_string(life).c_str(), {255, 255, 255});
 	texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
 	textBox = { 0, 0, texW, texH };
 	textBox.x = body.x + body.w / 2 - textBox.w / 2;
@@ -34,20 +34,19 @@ BallBrick::BallBrick(int x, int y, int w, int h, TTF_Font* font, SDL_Renderer* r
 BallBrick::~BallBrick()
 {
 	SDL_DestroyTexture(texture);
-	SDL_FreeSurface(surface);
+	//SDL_FreeSurface(surface);
 }
 
 
 void BallBrick::decreaseLife()
 {
 	life--;
+	SDL_DestroyTexture(texture);
 	surface = TTF_RenderText_Solid(font, std::to_string(life).c_str(), { 255, 255, 255 });
-	texture = SDL_CreateTextureFromSurface(this->renderer, surface);
-	int texW, texH;
+	texture = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	textBox = { 0, 0, texW, texH };
-	textBox.x = body.x + body.w / 2 - textBox.w / 2;
-	textBox.y = body.y + body.h / 2 - textBox.h / 2;
+	//SDL_UpdateTexture(texture, &textBox, surface->pixels, surface->pitch);
+	SDL_FreeSurface(surface);
 }
 
 void BallBrick::render(SDL_Renderer* renderer)

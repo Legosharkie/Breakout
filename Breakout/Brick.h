@@ -15,6 +15,7 @@ protected:
 	SDL_Rect textBox;
 	TTF_Font* font;
 	SDL_Renderer* renderer;
+	int texW, texH;
 	
 	
 public:

@@ -104,12 +104,12 @@ void Game::update(double dt)
 	
 	int fps =(int) (1000.0 / dt);
 	//std::cout << fps << std::endl;
-	surface = TTF_RenderText_Solid(font, std::to_string(fps).c_str(), { 255, 255, 255 });
-	texture = SDL_CreateTextureFromSurface(renderer, surface);
-	int texW, texH;
-	SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-	FPS_box.w = texW;
-	FPS_box.h = texH;
+	//surface = TTF_RenderText_Solid(font, std::to_string(fps).c_str(), { 255, 255, 255 });
+	//texture = SDL_CreateTextureFromSurface(renderer, surface);
+	//int texW, texH;
+	//SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+	//FPS_box.w = texW;
+//	FPS_box.h = texH;
 
 	const Uint8* keystates = SDL_GetKeyboardState(NULL);
 	player.move(-keystates[SDL_SCANCODE_A] + keystates[SDL_SCANCODE_D]);
@@ -181,7 +181,7 @@ void Game::render()
 	for (auto &brick : bricks)
 		brick->render(renderer);
 
-	SDL_RenderCopy(renderer, texture, NULL, &FPS_box);
+	//SDL_RenderCopy(renderer, texture, NULL, &FPS_box);
 	SDL_RenderPresent(renderer);
 }
 
@@ -238,7 +238,7 @@ void Game::initBricks(int rows, int blockHeight, int N_per_row, int minLen)
 		for (int j = 0; j < chunks.size(); j++)
 		{
 			randNum = ((double)rand() / RAND_MAX);
-			if (randNum < 1) 
+			if (randNum < 0.2) 
 			{
 				bricks.push_back(new BallBrick(nextX, i * blockHeight, chunks[j], blockHeight, font, renderer));
 				
